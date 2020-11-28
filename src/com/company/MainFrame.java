@@ -11,10 +11,12 @@ public class MainFrame extends JFrame implements ActionListener {
     JButton solutionListButton = new JButton(); // 해결내역 버튼
     JButton registerLostItemButton = new JButton(); // 분실물 등록 버튼
     JButton solutionButton = new JButton(); // 해결 버튼
+    JButton refreshButton = new JButton();
+    DefaultTableModel model;
+    JTable table;
+    DB_Conn_Query db = new DB_Conn_Query();
 
     MainFrame() {
-        DB_Conn_Query db = new DB_Conn_Query();
-
         JLabel title = new JLabel(); // 타이틀 텍스트
         title.setText("분실물 관리 시스템");
         title.setHorizontalTextPosition(JLabel.CENTER);
@@ -22,6 +24,14 @@ public class MainFrame extends JFrame implements ActionListener {
         title.setFont(new Font("Serif", Font.PLAIN, 24));
         title.setVerticalAlignment(JLabel.TOP);
         title.setHorizontalAlignment(JLabel.CENTER);
+
+        refreshButton.setBounds(10, 10, 100, 80);
+        refreshButton.addActionListener(this);
+        refreshButton.setText("내역 새로고침");
+        refreshButton.setBackground(new Color(0x02c488));
+        refreshButton.setForeground(Color.white);
+        refreshButton.setBorder(BorderFactory.createEtchedBorder());
+        refreshButton.setFont(new Font("Serif", Font.PLAIN, 20));
 
         solutionListButton.setBounds(10, 10, 100, 80);
         solutionListButton.addActionListener(this);
@@ -49,8 +59,8 @@ public class MainFrame extends JFrame implements ActionListener {
 
         JPanel tablePanel = new JPanel(); // 중단 테이블 Panel
 
-        DefaultTableModel model = db.getManagementBook();
-        JTable table = new JTable(model);
+        model = db.getManagementBook();
+        table = new JTable(model);
 
         table.setPreferredScrollableViewportSize(new Dimension(1440, 800));
         table.setFillsViewportHeight(true);
@@ -61,6 +71,7 @@ public class MainFrame extends JFrame implements ActionListener {
 
         JPanel buttonPanel = new JPanel(); // 하단 버튼 Panel
 
+        buttonPanel.add(refreshButton);
         buttonPanel.add(solutionListButton);
         buttonPanel.add(registerLostItemButton);
         buttonPanel.add(solutionButton);
@@ -81,6 +92,11 @@ public class MainFrame extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == refreshButton) {
+            model = db.getManagementBook();
+            model.fireTableDataChanged(); // 왜 안돼?
+        }
+
         if (e.getSource() == solutionListButton) {
             SolutionPage solutionPage = new SolutionPage();
         }
