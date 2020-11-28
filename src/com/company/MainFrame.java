@@ -5,16 +5,16 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
 public class MainFrame extends JFrame implements ActionListener {
     JButton solutionListButton = new JButton(); // 해결내역 버튼
     JButton registerLostItemButton = new JButton(); // 분실물 등록 버튼
     JButton solutionButton = new JButton(); // 해결 버튼
-    String[] headings = new String[]{"분실물", "상태", "습득자", "휴대폰번호", "날짜"};
-    DefaultTableModel model = new DefaultTableModel(headings, 0);
-    JTable table = new JTable(model);
 
     MainFrame() {
+        DB_Conn_Query db = new DB_Conn_Query();
+
         JLabel title = new JLabel(); // 타이틀 텍스트
         title.setText("분실물 관리 시스템");
         title.setHorizontalTextPosition(JLabel.CENTER);
@@ -48,6 +48,9 @@ public class MainFrame extends JFrame implements ActionListener {
         solutionButton.setFont(new Font("Serif", Font.PLAIN, 20));
 
         JPanel tablePanel = new JPanel(); // 중단 테이블 Panel
+
+        DefaultTableModel model = db.getManagementBook();
+        JTable table = new JTable(model);
 
         table.setPreferredScrollableViewportSize(new Dimension(1440, 800));
         table.setFillsViewportHeight(true);
