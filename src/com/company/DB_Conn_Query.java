@@ -25,14 +25,14 @@ public class DB_Conn_Query {
     }
 
     public DefaultTableModel getManagementBook() {
-        String query = "SELECT MANAGEMENT_BOOK.ID, GETTER.NAME, GETTER.PHONENUMBER, LOSTITEM.NAME, LOSTITEM.STATEMENT, MANAGEMENT_BOOK.GET_DATE FROM MANAGEMENT_BOOK, GETTER, LOSTITEM WHERE MANAGEMENT_BOOK.GETTER = GETTER.ID AND MANAGEMENT_BOOK.LOST_ID = LOSTITEM.ID";
-        String[] headings = new String[]{"관리번호", "습득자", "전화번호", "습득물", "상태", "날짜"};
+        String query = "SELECT MANAGEMENT_BOOK.ID, GETTER.ID, GETTER.NAME, GETTER.PHONENUMBER, LOSTITEM.ID, LOSTITEM.NAME, LOSTITEM.STATEMENT, MANAGEMENT_BOOK.GET_DATE FROM MANAGEMENT_BOOK, GETTER, LOSTITEM WHERE MANAGEMENT_BOOK.GETTER = GETTER.ID AND MANAGEMENT_BOOK.LOST_ID = LOSTITEM.ID";
+        String[] headings = new String[]{"관리번호", "습득자 고유번호", "습득자", "전화번호", "습득물 고유번호", "습득물", "상태", "날짜"};
         DefaultTableModel model = new DefaultTableModel(headings, 0);
 
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            String row[] = new String[6];
+            String row[] = new String[8];
 
             while (rs.next()) {
                 row[0] = rs.getString(1);
@@ -40,7 +40,9 @@ public class DB_Conn_Query {
                 row[2] = rs.getString(3);
                 row[3] = rs.getString(4);
                 row[4] = rs.getString(5);
-                row[5] = rs.getDate(6).toString();
+                row[5] = rs.getString(6);
+                row[6] = rs.getString(7);
+                row[7] = rs.getDate(8).toString();
                 model.addRow(row);
             }
 
@@ -95,15 +97,15 @@ public class DB_Conn_Query {
     }
 
     public DefaultTableModel search(String searchTerm) {
-        String[] headings = new String[]{"관리번호", "습득자", "전화번호", "습득물", "상태", "날짜"};
+        String[] headings = new String[]{"관리번호", "습득자 고유번호", "습득자", "전화번호", "습득물 고유번호", "습득물", "상태", "날짜"};
         DefaultTableModel model = new DefaultTableModel(headings, 0);
 
         try {
-            PreparedStatement pstmt = con.prepareStatement("SELECT MANAGEMENT_BOOK.ID, GETTER.NAME, GETTER.PHONENUMBER, LOSTITEM.NAME, LOSTITEM.STATEMENT, MANAGEMENT_BOOK.GET_DATE FROM MANAGEMENT_BOOK, GETTER, LOSTITEM WHERE MANAGEMENT_BOOK.GETTER = GETTER.ID AND MANAGEMENT_BOOK.LOST_ID = LOSTITEM.ID AND LOSTITEM.NAME LIKE ?");
+            PreparedStatement pstmt = con.prepareStatement("SELECT MANAGEMENT_BOOK.ID, GETTER.ID, GETTER.NAME, GETTER.PHONENUMBER, LOSTITEM.ID, LOSTITEM.NAME, LOSTITEM.STATEMENT, MANAGEMENT_BOOK.GET_DATE FROM MANAGEMENT_BOOK, GETTER, LOSTITEM WHERE MANAGEMENT_BOOK.GETTER = GETTER.ID AND MANAGEMENT_BOOK.LOST_ID = LOSTITEM.ID AND LOSTITEM.NAME LIKE ?");
             pstmt.setString(1, searchTerm);
             ResultSet rs = pstmt.executeQuery();
 
-            String row[] = new String[6];
+            String row[] = new String[8];
 
             while (rs.next()) {
                 row[0] = rs.getString(1);
@@ -111,7 +113,9 @@ public class DB_Conn_Query {
                 row[2] = rs.getString(3);
                 row[3] = rs.getString(4);
                 row[4] = rs.getString(5);
-                row[5] = rs.getDate(6).toString();
+                row[5] = rs.getString(6);
+                row[6] = rs.getString(7);
+                row[7] = rs.getDate(8).toString();
                 model.addRow(row);
             }
 

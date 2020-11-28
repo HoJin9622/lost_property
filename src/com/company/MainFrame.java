@@ -5,6 +5,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class MainFrame extends JFrame implements ActionListener {
     JButton solutionListButton = new JButton(); // 해결내역 버튼
@@ -84,6 +86,7 @@ public class MainFrame extends JFrame implements ActionListener {
 
         table.setPreferredScrollableViewportSize(new Dimension(1440, 740));
         table.setFillsViewportHeight(true);
+        table.addMouseListener(new JTableMouseListener());
         tablePanel.add(new JScrollPane(table));
 
         tablePanel.setBackground(Color.white);
@@ -136,5 +139,28 @@ public class MainFrame extends JFrame implements ActionListener {
             model = db.search(searchField.getText());
             table.setModel(model);
         }
+    }
+
+    private class JTableMouseListener implements MouseListener {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent e) {
+            JTable jtable = (JTable)e.getSource();
+            int row = jtable.getSelectedRow();
+            int col = jtable.getSelectedColumn();
+
+            System.out.println(model.getValueAt(row, col));
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) { }
+
+        @Override
+        public void mouseReleased(MouseEvent e) { }
+
+        @Override
+        public void mouseEntered(MouseEvent e) { }
+
+        @Override
+        public void mouseExited(MouseEvent e) { }
     }
 }
