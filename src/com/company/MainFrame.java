@@ -1,6 +1,7 @@
 package com.company;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +10,9 @@ public class MainFrame extends JFrame implements ActionListener {
     JButton solutionListButton = new JButton(); // 해결내역 버튼
     JButton registerLostItemButton = new JButton(); // 분실물 등록 버튼
     JButton solutionButton = new JButton(); // 해결 버튼
+    String[] headings = new String[]{"분실물", "상태", "습득자", "휴대폰번호", "날짜"};
+    DefaultTableModel model = new DefaultTableModel(headings, 0);
+    JTable table = new JTable(model);
 
     MainFrame() {
         JLabel title = new JLabel(); // 타이틀 텍스트
@@ -44,16 +48,22 @@ public class MainFrame extends JFrame implements ActionListener {
         solutionButton.setFont(new Font("Serif", Font.PLAIN, 20));
 
         JPanel tablePanel = new JPanel(); // 중단 테이블 Panel
+
+        table.setPreferredScrollableViewportSize(new Dimension(1440, 800));
+        table.setFillsViewportHeight(true);
+        tablePanel.add(new JScrollPane(table));
+
         tablePanel.setBackground(Color.white);
         tablePanel.setBounds(0, 30, 1440, 800);
 
         JPanel buttonPanel = new JPanel(); // 하단 버튼 Panel
-        buttonPanel.setBackground(Color.white);
-        buttonPanel.setBounds(0, 830, 1440, 130);
 
         buttonPanel.add(solutionListButton);
         buttonPanel.add(registerLostItemButton);
         buttonPanel.add(solutionButton);
+
+        buttonPanel.setBackground(Color.white);
+        buttonPanel.setBounds(0, 830, 1440, 130);
 
         this.add(tablePanel);
         this.add(buttonPanel);
@@ -68,16 +78,16 @@ public class MainFrame extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==solutionListButton) {
+        if (e.getSource() == solutionListButton) {
             System.out.println("해결내역버튼 클릭");
             SolutionPage solutionPage = new SolutionPage();
         }
 
-        if(e.getSource()==registerLostItemButton) {
+        if (e.getSource() == registerLostItemButton) {
             System.out.println("분실물 등록 버튼 클릭");
         }
 
-        if(e.getSource()==solutionButton) {
+        if (e.getSource() == solutionButton) {
             System.out.println("해결 버튼 클릭");
         }
     }
