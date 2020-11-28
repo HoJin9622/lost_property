@@ -50,4 +50,31 @@ public class DB_Conn_Query {
             return null;
         }
     }
+
+    public DefaultTableModel getSolution() {
+        String query = "SELECT SOLUTION.ID, LOSTITEM.NAME, LOSTITEM.STATEMENT, SOLUTION.SOLUTION_DATE FROM SOLUTION, LOSTITEM WHERE SOLUTION.LOST_ID = LOSTITEM.ID";
+        String[] headings = new String[]{"해결번호", "습득물", "상태", "해결일자"};
+        DefaultTableModel model = new DefaultTableModel(headings, 0);
+
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            String row[] = new String[4];
+
+            while (rs.next()) {
+                row[0] = rs.getString(1);
+                row[1] = rs.getString(2);
+                row[2] = rs.getString(3);
+                row[3] = rs.getDate(4).toString();
+
+                model.addRow(row);
+            }
+
+            return model;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+            return null;
+        }
+    }
 }
