@@ -9,14 +9,17 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class MainFrame extends JFrame implements ActionListener {
+    JTable table;
+    DefaultTableModel model;
     JButton solutionListButton = new JButton(); // 해결내역 버튼
     JButton registerLostItemButton = new JButton(); // 분실물 등록 버튼
     JButton solutionButton = new JButton(); // 해결 버튼
     JButton refreshButton = new JButton();
     JButton searchButton = new JButton();
     JTextField searchField = new JTextField();
-    DefaultTableModel model;
-    JTable table;
+    String selectedId;
+    String selectedGetterId;
+    String selectedItemId;
     DB_Conn_Query db = new DB_Conn_Query();
 
     MainFrame() {
@@ -131,7 +134,10 @@ public class MainFrame extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == solutionButton) {
-            System.out.println("해결 버튼 클릭");
+            model.setRowCount(0);
+            db.solution(selectedId, selectedGetterId, selectedItemId);
+            model = db.getManagementBook();
+            table.setModel(model);
         }
 
         if(e.getSource() == searchButton) {
@@ -146,9 +152,9 @@ public class MainFrame extends JFrame implements ActionListener {
         public void mouseClicked(java.awt.event.MouseEvent e) {
             JTable jtable = (JTable)e.getSource();
             int row = jtable.getSelectedRow();
-            int col = jtable.getSelectedColumn();
-
-            System.out.println(model.getValueAt(row, col));
+            selectedId = (String)model.getValueAt(row, 0);
+            selectedGetterId = (String)model.getValueAt(row, 1);
+            selectedItemId = (String)model.getValueAt(row, 4);
         }
 
         @Override

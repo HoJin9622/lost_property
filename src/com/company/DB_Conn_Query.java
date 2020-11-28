@@ -126,4 +126,18 @@ public class DB_Conn_Query {
             return null;
         }
     }
+
+    public void solution(String id, String getterId, String itemId) {
+        try {
+            CallableStatement cstmt = con.prepareCall("{call INSERT_SOLUTION(?, ?, ?)}");
+            cstmt.setString(1, id);
+            cstmt.setString(2, getterId);
+            cstmt.setString(3, itemId);
+            cstmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "해결!", "해결!", JOptionPane.INFORMATION_MESSAGE);
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "오류", "데이터베이스와의 연결이 좋지 않습니다.", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
 }
