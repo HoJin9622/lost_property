@@ -116,7 +116,7 @@ public class MainFrame extends JFrame implements ActionListener {
         if(e.getSource() == refreshButton) {
             model.setRowCount(0);
             model = db.getManagementBook();
-            System.out.println(model.getRowCount());
+            table.setModel(model);
         }
 
         if (e.getSource() == solutionListButton) {
@@ -134,6 +134,7 @@ public class MainFrame extends JFrame implements ActionListener {
         if(e.getSource() == searchButton) {
             model.setRowCount(0);
             model = db.search(searchField.getText());
+            table.setModel(model);
         }
     }
 }

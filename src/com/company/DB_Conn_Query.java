@@ -95,7 +95,7 @@ public class DB_Conn_Query {
     }
 
     public DefaultTableModel search(String searchTerm) {
-        String[] headings = new String[]{"해결번호", "습득물", "상태", "해결일자"};
+        String[] headings = new String[]{"관리번호", "습득자", "전화번호", "습득물", "상태", "날짜"};
         DefaultTableModel model = new DefaultTableModel(headings, 0);
 
         try {
