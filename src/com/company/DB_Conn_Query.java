@@ -90,7 +90,7 @@ public class DB_Conn_Query {
             cstmt.setString(4, itemName);
             cstmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "등록 성공", "등록 성공", JOptionPane.INFORMATION_MESSAGE);
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null, "등록 실패", "등록 실패", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -120,7 +120,7 @@ public class DB_Conn_Query {
             }
 
             return model;
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
 
             return null;
@@ -135,7 +135,7 @@ public class DB_Conn_Query {
             cstmt.setString(3, itemId);
             cstmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "해결!", "해결!", JOptionPane.INFORMATION_MESSAGE);
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null, "오류", "데이터베이스와의 연결이 좋지 않습니다.", JOptionPane.INFORMATION_MESSAGE);
         }

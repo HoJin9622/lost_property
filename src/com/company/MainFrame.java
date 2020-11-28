@@ -119,7 +119,7 @@ public class MainFrame extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == refreshButton) {
+        if (e.getSource() == refreshButton) {
             model.setRowCount(0);
             model = db.getManagementBook();
             table.setModel(model);
@@ -134,13 +134,13 @@ public class MainFrame extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == solutionButton) {
-            model.setRowCount(0);
             db.solution(selectedId, selectedGetterId, selectedItemId);
+            model.setRowCount(0);
             model = db.getManagementBook();
             table.setModel(model);
         }
 
-        if(e.getSource() == searchButton) {
+        if (e.getSource() == searchButton) {
             model.setRowCount(0);
             model = db.search(searchField.getText());
             table.setModel(model);
@@ -150,23 +150,27 @@ public class MainFrame extends JFrame implements ActionListener {
     private class JTableMouseListener implements MouseListener {
         @Override
         public void mouseClicked(java.awt.event.MouseEvent e) {
-            JTable jtable = (JTable)e.getSource();
+            JTable jtable = (JTable) e.getSource();
             int row = jtable.getSelectedRow();
-            selectedId = (String)model.getValueAt(row, 0);
-            selectedGetterId = (String)model.getValueAt(row, 1);
-            selectedItemId = (String)model.getValueAt(row, 4);
+            selectedId = (String) model.getValueAt(row, 0);
+            selectedGetterId = (String) model.getValueAt(row, 1);
+            selectedItemId = (String) model.getValueAt(row, 4);
         }
 
         @Override
-        public void mousePressed(MouseEvent e) { }
+        public void mousePressed(MouseEvent e) {
+        }
 
         @Override
-        public void mouseReleased(MouseEvent e) { }
+        public void mouseReleased(MouseEvent e) {
+        }
 
         @Override
-        public void mouseEntered(MouseEvent e) { }
+        public void mouseEntered(MouseEvent e) {
+        }
 
         @Override
-        public void mouseExited(MouseEvent e) { }
+        public void mouseExited(MouseEvent e) {
+        }
     }
 }
