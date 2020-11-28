@@ -82,12 +82,10 @@ public class MainFrame extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == solutionListButton) {
-            System.out.println("해결내역버튼 클릭");
             SolutionPage solutionPage = new SolutionPage();
         }
 
         if (e.getSource() == registerLostItemButton) {
-            System.out.println("분실물 등록 버튼 클릭");
             RegisterForm form = new RegisterForm();
         }
 

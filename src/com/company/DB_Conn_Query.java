@@ -1,5 +1,6 @@
 package com.company;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 
@@ -75,6 +76,21 @@ public class DB_Conn_Query {
             System.out.println(e.getMessage());
 
             return null;
+        }
+    }
+
+    public void register(String studentNumber, String studentName, String phoneNumber, String itemName) {
+        try {
+            CallableStatement cstmt = con.prepareCall("{call INSERT_LOST(?, ?, ?, ?)}");
+            cstmt.setString(1, studentNumber);
+            cstmt.setString(2, studentName);
+            cstmt.setString(3, phoneNumber);
+            cstmt.setString(4, itemName);
+            cstmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "등록 성공", "등록 성공", JOptionPane.INFORMATION_MESSAGE);
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "등록 실패", "등록 실패", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

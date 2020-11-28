@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class RegisterForm extends JFrame implements ActionListener {
+    DB_Conn_Query db = new DB_Conn_Query();
     JButton submitButton;
     JTextField studentNumberField;
     JTextField studentNameField;
@@ -13,7 +14,7 @@ public class RegisterForm extends JFrame implements ActionListener {
     JTextField itemNameField;
 
     RegisterForm() {
-        this.setLayout(new GridLayout(5,2));
+        this.setLayout(new GridLayout(5, 2));
 
         submitButton = new JButton("등록");
         submitButton.addActionListener(this);
@@ -51,9 +52,10 @@ public class RegisterForm extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == submitButton) {
+        if (e.getSource() == submitButton) {
             submitButton.setEnabled(false);
-            System.out.println(studentNumberField.getText());
+            db.register(studentNumberField.getText(), studentNameField.getText(), studentPhoneNumberField.getText(), itemNameField.getText());
+            this.dispose();
         }
     }
 }
