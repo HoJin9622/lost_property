@@ -5,13 +5,14 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
 
 public class MainFrame extends JFrame implements ActionListener {
     JButton solutionListButton = new JButton(); // 해결내역 버튼
     JButton registerLostItemButton = new JButton(); // 분실물 등록 버튼
     JButton solutionButton = new JButton(); // 해결 버튼
     JButton refreshButton = new JButton();
+    JButton searchButton = new JButton();
+    JTextField searchField = new JTextField();
     DefaultTableModel model;
     JTable table;
     DB_Conn_Query db = new DB_Conn_Query();
@@ -25,6 +26,10 @@ public class MainFrame extends JFrame implements ActionListener {
         title.setVerticalAlignment(JLabel.TOP);
         title.setHorizontalAlignment(JLabel.CENTER);
 
+        searchField = new JTextField();
+        searchField.setPreferredSize(new Dimension(250, 40));
+        searchField.setFont(new Font("Serif", Font.PLAIN, 35));
+
         refreshButton.setBounds(10, 10, 100, 80);
         refreshButton.addActionListener(this);
         refreshButton.setText("내역 새로고침");
@@ -32,6 +37,14 @@ public class MainFrame extends JFrame implements ActionListener {
         refreshButton.setForeground(Color.white);
         refreshButton.setBorder(BorderFactory.createEtchedBorder());
         refreshButton.setFont(new Font("Serif", Font.PLAIN, 20));
+
+        searchButton.setBounds(10, 10, 100, 80);
+        searchButton.addActionListener(this);
+        searchButton.setText("검색");
+        searchButton.setBackground(new Color(0x02c488));
+        searchButton.setForeground(Color.white);
+        searchButton.setBorder(BorderFactory.createEtchedBorder());
+        searchButton.setFont(new Font("Serif", Font.PLAIN, 20));
 
         solutionListButton.setBounds(10, 10, 100, 80);
         solutionListButton.addActionListener(this);
@@ -57,17 +70,24 @@ public class MainFrame extends JFrame implements ActionListener {
         solutionButton.setBorder(BorderFactory.createEtchedBorder());
         solutionButton.setFont(new Font("Serif", Font.PLAIN, 20));
 
+        JPanel searchPanel = new JPanel();
+
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+        searchPanel.setBackground(Color.white);
+        searchPanel.setBounds(0, 30, 1440, 50);
+
         JPanel tablePanel = new JPanel(); // 중단 테이블 Panel
 
         model = db.getManagementBook();
         table = new JTable(model);
 
-        table.setPreferredScrollableViewportSize(new Dimension(1440, 800));
+        table.setPreferredScrollableViewportSize(new Dimension(1440, 740));
         table.setFillsViewportHeight(true);
         tablePanel.add(new JScrollPane(table));
 
         tablePanel.setBackground(Color.white);
-        tablePanel.setBounds(0, 30, 1440, 800);
+        tablePanel.setBounds(0, 90, 1440, 740);
 
         JPanel buttonPanel = new JPanel(); // 하단 버튼 Panel
 
@@ -79,6 +99,7 @@ public class MainFrame extends JFrame implements ActionListener {
         buttonPanel.setBackground(Color.white);
         buttonPanel.setBounds(0, 830, 1440, 130);
 
+        this.add(searchPanel);
         this.add(tablePanel);
         this.add(buttonPanel);
         this.add(title);
@@ -93,8 +114,9 @@ public class MainFrame extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == refreshButton) {
+            model.setRowCount(0);
             model = db.getManagementBook();
-            model.fireTableDataChanged(); // 왜 안돼?
+            System.out.println(model.getRowCount());
         }
 
         if (e.getSource() == solutionListButton) {
@@ -107,6 +129,11 @@ public class MainFrame extends JFrame implements ActionListener {
 
         if (e.getSource() == solutionButton) {
             System.out.println("해결 버튼 클릭");
+        }
+
+        if(e.getSource() == searchButton) {
+            model.setRowCount(0);
+            model = db.search(searchField.getText());
         }
     }
 }

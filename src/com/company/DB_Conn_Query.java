@@ -93,4 +93,33 @@ public class DB_Conn_Query {
             JOptionPane.showMessageDialog(null, "등록 실패", "등록 실패", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
+    public DefaultTableModel search(String searchTerm) {
+        String[] headings = new String[]{"해결번호", "습득물", "상태", "해결일자"};
+        DefaultTableModel model = new DefaultTableModel(headings, 0);
+
+        try {
+            PreparedStatement pstmt = con.prepareStatement("SELECT MANAGEMENT_BOOK.ID, GETTER.NAME, GETTER.PHONENUMBER, LOSTITEM.NAME, LOSTITEM.STATEMENT, MANAGEMENT_BOOK.GET_DATE FROM MANAGEMENT_BOOK, GETTER, LOSTITEM WHERE MANAGEMENT_BOOK.GETTER = GETTER.ID AND MANAGEMENT_BOOK.LOST_ID = LOSTITEM.ID AND LOSTITEM.NAME LIKE ?");
+            pstmt.setString(1, searchTerm);
+            ResultSet rs = pstmt.executeQuery();
+
+            String row[] = new String[6];
+
+            while (rs.next()) {
+                row[0] = rs.getString(1);
+                row[1] = rs.getString(2);
+                row[2] = rs.getString(3);
+                row[3] = rs.getString(4);
+                row[4] = rs.getString(5);
+                row[5] = rs.getDate(6).toString();
+                model.addRow(row);
+            }
+
+            return model;
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+
+            return null;
+        }
+    }
 }
